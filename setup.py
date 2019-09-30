@@ -76,12 +76,12 @@ setup(
     tests_require=tests_require,
     install_requires=[
         'fs>=0.4.0,<2.0',
-        'pyxrootd',
     ],
     cmdclass={'test': PyTest},
     classifiers=[
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',

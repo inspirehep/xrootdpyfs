@@ -23,8 +23,8 @@ from __future__ import absolute_import, print_function
 import re
 from datetime import datetime
 from glob import fnmatch
-from urllib import urlencode
-from urlparse import parse_qs
+from six.moves.urllib.parse import urlencode
+from six.moves.urllib.parse import parse_qs
 
 from fs.base import FS
 from fs.errors import DestinationExistsError, DirectoryNotEmptyError, \
@@ -100,10 +100,7 @@ class XRootDPyFS(FS):
             # Convert query string in URL into a dictionary. Assumes there's no
             # duplication of fields names in query string (such as e.g.
             # '?f1=a&f1=b').
-            queryargs = dict(map(
-                lambda (k, v): (k, v[0]),
-                parse_qs(queryargs).items()
-            ))
+            queryargs = {k: v[0] for (k,v) in parse_qs(queryargs).items()}
 
             # Merge values from kwarg query into the dictionary. Conflicting
             # keys raises an exception.
@@ -131,8 +128,8 @@ class XRootDPyFS(FS):
             path = path.decode(encoding)
         # pathjoin always returns unicode
         return (
-            u'/' + pathjoin(self.base_path.decode('utf-8'), path)
-        ).encode(encoding)
+            '/' + pathjoin(self.base_path, path)
+        )
 
     def _raise_status(self, path, status):
         """Raise error based on status."""
